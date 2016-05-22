@@ -25,7 +25,7 @@ How to build
 
 Reference
 -------------
-[Star Wars opening crawl from 1977][1] - application icons and play store images
+[Star Wars opening crawl from 1977][1]
 
 License
 ----------
