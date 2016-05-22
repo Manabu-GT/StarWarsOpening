@@ -17,7 +17,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -123,10 +122,21 @@ public class OpeningActivity extends AppCompatActivity {
         });
         logoAnimator.start();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            animateOpeningText();
+        animateOpeningText();
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private void animateOpeningText() {
+        Log.d(TAG, "text Height:" + openingTextView.getHeight());
+        if (openingTextView.getHeight() == 0) {
+            openingTextView.post(new Runnable() {
+                @Override
+                public void run() {
+                    animateOpeningTextHelper();
+                }
+            });
         } else {
-            animateOpeningTextPreKitkat();
+            animateOpeningTextHelper();
         }
     }
 
@@ -151,35 +161,5 @@ public class OpeningActivity extends AppCompatActivity {
         animatorSet = new AnimatorSet();
         animatorSet.playTogether(animator1, animator2);
         animatorSet.start();
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void animateOpeningText() {
-        Log.d(TAG, "text Height:" + openingTextView.getHeight());
-        if (openingTextView.getHeight() == 0) {
-            openingTextView.post(new Runnable() {
-                @Override
-                public void run() {
-                    animateOpeningTextHelper();
-                }
-            });
-        } else {
-            animateOpeningTextHelper();
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void animateOpeningTextPreKitkat() {
-        ObjectAnimator oa = ObjectAnimator.ofFloat(openingTextView, View.TRANSLATION_Y, -2000)
-                .setDuration(ANIM_DURATION_OPENING);
-        oa.setInterpolator(new LinearInterpolator());
-        oa.setStartDelay(ANIM_DELAY_OPENING);
-        oa.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                openingTextView.invalidate();
-            }
-        });
-        oa.start();
     }
 }
