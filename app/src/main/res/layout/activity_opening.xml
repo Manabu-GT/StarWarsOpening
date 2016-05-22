@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ms_square.starwars.opening.GalaxyFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:clickable="false"
+    app:numStars="@integer/numStars"
+    app:minStarRadius="2dp"
+    app:maxStarRadius="4dp"
+    tools:context="com.ms_square.starwars.opening.OpeningActivity">
+
+    <TextView
+        android:id="@+id/intro_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        android:textColor="#4bd5ed"
+        android:textSize="36sp"
+        android:text="@string/intro"
+        app:layout_marginTopPercent="45%"/>
+
+    <ImageView
+        android:id="@+id/logo_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="invisible"
+        android:src="@drawable/logo"
+        app:layout_marginTopPercent="45%" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:overScrollMode="never">
+        <com.ms_square.starwars.opening.Rotate3dTextView
+            android:id="@+id/opening_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:alpha="0"
+            android:textColor="#ff6"
+            android:textSize="36sp"
+            android:text="@string/opening" />
+    </ScrollView>
+
+</com.ms_square.starwars.opening.GalaxyFrameLayout>

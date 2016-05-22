@@ -1,0 +1,20 @@
+# Local configuration file (sdk path, etc)
+local.properties
+
+keystore.properties
+
+# Gradle files
+.gradle
+build/
+
+# Android Studio
+*.iml
+.idea/*
+!.idea/codeStyleSettings.xml
+
+# Other
+.DS_Store
+captures/
+
+# Crashlytics release note
+release-note-crashlytics.txt

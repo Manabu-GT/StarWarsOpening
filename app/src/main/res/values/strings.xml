@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">StarWarsOpening</string>
+
+    <string name="intro">A long time ago, in a galaxy far,\nfar away....</string>
+
+    <string name="opening">
+        It is a period of civil war.\n
+        Rebel spaceships, striking\n
+        from a hidden base, have won\n
+        their first victory against\n
+        the evil Galactic Empire.\n\n
+        During the battle, Rebel\n
+        spies managed to steal secret\n
+        plans to the Empire\'s\n
+        ultimate weapon, the DEATH\n
+        STAR, an armored space\n
+        station with enough power to\n
+        destroy an entire planet.\n\n
+        Pursued by the Empire\'s\n
+        sinister agents, Princess\n
+        Leia races home aboard her\n
+        starship, custodian of the\n
+        stolen plan that can save\n
+        her people and restore\n
+        freedom to the galaxy....
+    </string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>
