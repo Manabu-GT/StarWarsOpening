@@ -15,4 +15,10 @@
         <attr name="minStarRadius" format="dimension"/>
         <attr name="maxStarRadius" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="StarWarsTextView">
+        <attr name="duration" format="integer"/>
+        <attr name="startDelay" format="integer"/>
+        <attr name="rotation" format="float"/>
+    </declare-styleable>
 </resources>

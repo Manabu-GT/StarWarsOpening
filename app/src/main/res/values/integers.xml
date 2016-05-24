@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="numStars">64</integer>
+    <integer name="openingTextAnimDuration">81000</integer>
+    <integer name="openingTextAnimDelay">13000</integer>
 </resources>

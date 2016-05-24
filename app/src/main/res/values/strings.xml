@@ -24,6 +24,7 @@
         her people and restore\n
         freedom to the galaxy....
     </string>
+    <string name="btn_start">Start</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

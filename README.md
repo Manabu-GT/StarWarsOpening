@@ -3,6 +3,8 @@ Star Wars opening crawl from 1977
 
 StarWars Opening crawl is an android app which tried to mimic the opening crawl from Episode IV.
 
+
+
 Download from Google Play
 -------------------------
 
@@ -14,7 +16,7 @@ TBD
 
 How to use
 ------------
-TBD
+Just click 'Start' button and enjoy!
 
 How to build
 -------------

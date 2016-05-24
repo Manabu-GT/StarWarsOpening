@@ -7,18 +7,16 @@ import android.animation.AnimatorSet;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -27,35 +25,36 @@ public class OpeningActivity extends AppCompatActivity {
 
     private static final String TAG = OpeningActivity.class.getSimpleName();
 
-    private static final long ANIM_DURATION_OPENING = 81000;
-    private static final long ANIM_DELAY_OPENING = 13000;
-
     private MediaPlayer mediaPlayer;
 
-    private ScrollView scrollView;
     private ImageView logoView;
     private TextView introTextView;
-    private Rotate3dTextView openingTextView;
+    private StarWarsTextView openingTextView;
+
+    private Button btnStart;
 
     private boolean audioPrepared;
 
-    private AnimatorSet animatorSet;
+    private boolean startRequested;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening);
 
-        scrollView = (ScrollView) findViewById(R.id.scroll_view);
         logoView = (ImageView) findViewById(R.id.logo_view);
         introTextView = (TextView) findViewById(R.id.intro_text_view);
-        openingTextView = (Rotate3dTextView) findViewById(R.id.opening_text_view);
+        openingTextView = (StarWarsTextView) findViewById(R.id.opening_text_view);
+        btnStart = (Button) findViewById(R.id.btn_start);
 
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // disables scrolling by touch
-                return true;
+            public void onClick(View v) {
+                if (audioPrepared) {
+                    startOpeningScene();
+                } else {
+                    startRequested = true;
+                }
             }
         });
 
@@ -67,9 +66,6 @@ public class OpeningActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         mediaPlayer.release();
-        if (animatorSet != null) {
-            animatorSet.cancel();
-        }
         super.onDestroy();
     }
 
@@ -87,8 +83,10 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 audioPrepared = true;
-                mp.start();
-                startAnimation();
+                if (startRequested) {
+                    startOpeningScene();
+                    startRequested = false;
+                }
             }
         });
 
@@ -96,70 +94,80 @@ public class OpeningActivity extends AppCompatActivity {
             AssetFileDescriptor afd = getAssets().openFd("opening_crawl_1977.ogg");
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.w(TAG, "Error loading music:" + e.toString());
         }
         mediaPlayer.prepareAsync();
     }
 
-    private void startAnimation() {
-        Animator introAnimator = AnimatorInflater.loadAnimator(this, R.animator.intro);
-        introAnimator.setTarget(introTextView);
-        introAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                introTextView.setVisibility(View.VISIBLE);
-            }
-        });
-        introAnimator.start();
-
-        Animator logoAnimator = AnimatorInflater.loadAnimator(this, R.animator.logo);
-        logoAnimator.setTarget(logoView);
-        logoAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                logoView.setVisibility(View.VISIBLE);
-            }
-        });
-        logoAnimator.start();
-
-        animateOpeningText();
+    private void startOpeningScene() {
+        btnStart.setVisibility(View.INVISIBLE);
+        try {
+            mediaPlayer.seekTo(0);
+            mediaPlayer.start();
+        } catch (IllegalStateException ie) {
+            Log.w(TAG, "could not start playing audio:" + ie.toString());
+        }
+        startAnimation();
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void animateOpeningText() {
-        Log.d(TAG, "text Height:" + openingTextView.getHeight());
-        if (openingTextView.getHeight() == 0) {
-            openingTextView.post(new Runnable() {
-                @Override
-                public void run() {
-                    animateOpeningTextHelper();
-                }
-            });
+    private void startAnimation() {
+        startIntroTextAnimation();
+        startLogoAnimation();
+
+        openingTextView.startAnimation().addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                btnStart.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                btnStart.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void startIntroTextAnimation() {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Animator introAnimator = AnimatorInflater.loadAnimator(this, R.animator.intro);
+            introAnimator.setTarget(introTextView);
+            introAnimator.start();
         } else {
-            animateOpeningTextHelper();
+            Keyframe kf0 = Keyframe.ofFloat(0f, 0);
+            Keyframe kf1 = Keyframe.ofFloat(.2f, 1);
+            Keyframe kf2 = Keyframe.ofFloat(.9f, 1);
+            Keyframe kf3 = Keyframe.ofFloat(1f, 0);
+            PropertyValuesHolder pvh = PropertyValuesHolder.ofKeyframe("alpha", kf0, kf1, kf2, kf3);
+            ObjectAnimator alphaAnimator = ObjectAnimator.ofPropertyValuesHolder(introTextView, pvh);
+            alphaAnimator.setInterpolator(new DecelerateInterpolator());
+            alphaAnimator.setDuration(6000).setStartDelay(1000);
+            alphaAnimator.start();
         }
     }
 
-    private void animateOpeningTextHelper() {
-        Animator animator1 = AnimatorInflater.loadAnimator(OpeningActivity.this, R.animator.opening);
-        animator1.setTarget(openingTextView);
+    private void startLogoAnimation() {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Animator logoAnimator = AnimatorInflater.loadAnimator(this, R.animator.logo);
+            logoAnimator.setTarget(logoView);
+            logoAnimator.start();
+        } else {
+            AnimatorSet animatorSet = new AnimatorSet();
+            PropertyValuesHolder pvh = PropertyValuesHolder.ofKeyframe("alpha",
+                    Keyframe.ofFloat(0f, 1),
+                    Keyframe.ofFloat(.5f, 1),
+                    Keyframe.ofFloat(1f, 0));
+            ObjectAnimator alphaAnimator = ObjectAnimator.ofPropertyValuesHolder(logoView, pvh);
 
-        Keyframe kf0 = Keyframe.ofFloat(0f, Math.round(scrollView.getHeight() * 0.4));
-        Keyframe kf1 = Keyframe.ofFloat(1f, -openingTextView.getHeight() * 0.8f);
-        PropertyValuesHolder pvhTop = PropertyValuesHolder.ofKeyframe("translationY", kf0, kf1);
-        ValueAnimator animator2 = ObjectAnimator.ofPropertyValuesHolder(openingTextView, pvhTop);
-        animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Log.d(TAG, "translationY:" + openingTextView.getTranslationY());
-                openingTextView.invalidate();
-            }
-        });
+            pvh = PropertyValuesHolder.ofKeyframe("scaleX", Keyframe.ofFloat(0f, 2.75f), Keyframe.ofFloat(1f, .1f));
+            ObjectAnimator scaleXAnimator = ObjectAnimator.ofPropertyValuesHolder(logoView, pvh);
 
-        animator2.setDuration(ANIM_DURATION_OPENING);
+            pvh = PropertyValuesHolder.ofKeyframe("scaleY", Keyframe.ofFloat(0f, 2.75f), Keyframe.ofFloat(1f, .1f));
+            ObjectAnimator scaleYAnimator = ObjectAnimator.ofPropertyValuesHolder(logoView, pvh);
 
-        animatorSet = new AnimatorSet();
-        animatorSet.playTogether(animator1, animator2);
-        animatorSet.start();
+            animatorSet.setInterpolator(new DecelerateInterpolator());
+            animatorSet.setDuration(9000).setStartDelay(9000);
+            animatorSet.playTogether(alphaAnimator, scaleXAnimator, scaleYAnimator);
+            animatorSet.start();
+        }
     }
 }

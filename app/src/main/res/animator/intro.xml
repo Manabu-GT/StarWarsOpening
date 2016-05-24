@@ -5,6 +5,7 @@
     android:interpolator="@android:interpolator/decelerate_cubic">
     <!-- this seems to be supported after lollipop -->
     <propertyValuesHolder android:propertyName="alpha" android:valueType="floatType">
+        <!-- fraction is supported after android M -->
         <keyframe android:fraction="0" android:value="0"/>
         <keyframe android:fraction=".2" android:value="1"/>
         <keyframe android:fraction=".9" android:value="1"/>

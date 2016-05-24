@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:background="@android:color/black"
     android:clickable="false"
-    app:numStars="@integer/numStars"
-    app:minStarRadius="2dp"
     app:maxStarRadius="4dp"
+    app:minStarRadius="2dp"
+    app:numStars="@integer/numStars"
     tools:context="com.ms_square.starwars.opening.OpeningActivity">
 
     <TextView
@@ -17,38 +17,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:visibility="invisible"
-        android:textStyle="bold"
+        android:alpha="0"
+        android:text="@string/intro"
         android:textColor="#4bd5ed"
         android:textSize="36sp"
-        android:text="@string/intro"
-        app:layout_marginTopPercent="45%"/>
+        android:textStyle="bold"
+        app:layout_marginTopPercent="45%" />
 
     <ImageView
         android:id="@+id/logo_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:visibility="invisible"
-        android:src="@drawable/logo"
-        app:layout_marginTopPercent="45%" />
+        android:alpha="0"
+        app:srcCompat="@drawable/logo"
+        app:layout_marginTopPercent="40%" />
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <com.ms_square.starwars.opening.StarWarsTextView
+        android:id="@+id/opening_text_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none"
-        android:overScrollMode="never">
-        <com.ms_square.starwars.opening.Rotate3dTextView
-            android:id="@+id/opening_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:alpha="0"
-            android:textColor="#ff6"
-            android:textSize="36sp"
-            android:text="@string/opening" />
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/opening"
+        android:textColor="#ff6"
+        android:textSize="32sp"
+        app:duration="@integer/openingTextAnimDuration"
+        app:startDelay="@integer/openingTextAnimDelay"/>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="25%"
+        app:layout_heightPercent="25%"
+        android:layout_gravity="center"
+        android:text="@string/btn_start"
+        />
 
 </com.ms_square.starwars.opening.GalaxyFrameLayout>
