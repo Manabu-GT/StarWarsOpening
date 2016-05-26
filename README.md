@@ -15,12 +15,7 @@ Live Demo
 
 Since it's a preview over a web browser, its performance is poor but you can easily check how the app looks like.
 
-Download from Google Play
--------------------------
-<a href="https://play.google.com/store/apps/details?id=com.ms_square.starwars.opening">
-  <img alt="Android app on Google Play"
-       src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
-</a>
+If you quickly want to try out on your device, the debug apk is available from [here] (https://github.com/Manabu-GT/StarWarsOpening/raw/master/apk/app-v1.0.0-debug.apk).
 
 Requirements
 -------------
