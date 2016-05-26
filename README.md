@@ -3,16 +3,29 @@ Star Wars opening crawl from 1977
 
 StarWars Opening crawl is an android app which tried to mimic the opening crawl from Episode IV.
 
+It uses VectorDrawable support library for the starwars logo.
+RadialGradient was used to draw stars in the galaxy.
 
+<img alt="screenshot1" src="art/screenshot_1.png" style="display:block;margin:10px;"/>
+<img alt="screenshot2" src="art/screenshot_3.png" style="display:block;margin:10px;"/>
+
+Live Demo
+-------------------------
+[Live Demo] (https://appetize.io/app/g5qvjw3gm62ahf0mva50yx9bwg?device=nexus5&scale=75&orientation=landscape&osVersion=6.0)
+
+Since it's a preview over a web browser, its performance is poor but you can easily check how the app looks like.
 
 Download from Google Play
 -------------------------
-
-TBD
+<a href="https://play.google.com/store/apps/details?id=com.ms_square.starwars.opening">
+  <img alt="Android app on Google Play"
+       src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
+</a>
 
 Requirements
 -------------
-TBD
+API Level 19 (Kitkat) and above
+(not due to technical limitations)
 
 How to use
 ------------
@@ -28,6 +41,13 @@ How to build
 Reference
 -------------
 [Star Wars opening crawl from 1977][1]
+
+AppIcon
+-------------
+Thanks to [sensibleworld] 
+(http://www.easyicon.net/language.ja/1185380-Darth_Vader_icon.html)
+
+(Free for non-commercial use)
 
 License
 ----------

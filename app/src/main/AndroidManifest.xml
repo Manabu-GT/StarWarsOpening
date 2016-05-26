@@ -3,13 +3,13 @@
     package="com.ms_square.starwars.opening">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".OpeningActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation|uiMode"
             android:screenOrientation="landscape"
             android:label="@string/app_name">
             <intent-filter>
@@ -17,13 +17,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".FullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme">
         </activity>
     </application>
 
