@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     // Gets the revision number from the Git
     def getRevision = { ->
@@ -22,12 +22,25 @@ android {
     defaultConfig {
         applicationId "com.ms_square.starwars.opening"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
 
+        setProperty("archivesBaseName", "starwars-opening-$versionName-$getRevision")
+
         vectorDrawables.useSupportLibrary = true
+
+//        Disabled till issues are resolved. see https://github.com/nickwph/annotation-processor-with-java8-jack-and-jill-android
+//        jackOptions {
+//            enabled true
+//        }
     }
+
+//    compileOptions {
+//        encoding = "UTF-8"
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
     signingConfigs {
         release {
@@ -46,13 +59,14 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "BUILD_NUMBER", "\"" + getRevision() + "\""
-            zipAlignEnabled true
-            minifyEnabled false
+            // code shrinker to support pre-dexing and reduce re-dexing of dependencies
+            minifyEnabled true
+            useProguard false
         }
         release {
             buildConfigField "String", "BUILD_NUMBER", "\"" + getRevision() + "(R)\""
-            zipAlignEnabled true
-            minifyEnabled false
+            minifyEnabled true
+            useProguard false // true is the default for release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             // check if keystore.properties exists in the root
@@ -67,6 +81,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     // v7 includes vector drawable support library
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:percent:23.4.0'
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:percent:25.1.1'
 }
