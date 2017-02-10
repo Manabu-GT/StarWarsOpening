@@ -1,6 +1,8 @@
 Star Wars opening crawl from 1977
 ===============
 
+[![Build Status](https://travis-ci.org/Manabu-GT/StarWarsOpening.svg?branch=master)](https://travis-ci.org/Manabu-GT/StarWarsOpening)
+
 StarWars Opening crawl is an android app which tried to mimic the opening crawl from Episode IV.
 
 It uses VectorDrawable support library for the starwars logo.
