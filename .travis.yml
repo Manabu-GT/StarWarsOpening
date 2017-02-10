@@ -6,4 +6,6 @@ services:
 before_install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker pull manabugt/android
+
+script:
   - docker run -v $(pwd)/:/opt/workspace/ manabugt/android /bin/sh build-travis.sh
